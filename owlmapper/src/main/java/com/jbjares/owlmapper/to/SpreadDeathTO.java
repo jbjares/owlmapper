@@ -1,7 +1,6 @@
 package com.jbjares.owlmapper.to;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 public class SpreadDeathTO implements Serializable{
@@ -10,33 +9,22 @@ public class SpreadDeathTO implements Serializable{
 		private String label;
 		private String type;
 		private String county;
-		private Date datePageCertified;
-		private Date datePageCertifiedAsTrueCopy;
+		private String datePageCertified;
+		private String datePageCertifiedAsTrueCopy;
 		private String district;
 		private String districtOfSuperintendantRegistrar;
 		private String forenameOfRegistrarOnPage;
 		private String forenameOfSuperintendantRegistrar;
-		private Integer pageNumber;
-		private Integer quarter;
+		private String pageNumber;
+		private String quarter;
 		private String stampNumber;
 		private String surnameOfRegistrarOnPage;
 		private String surnameOfSuperintendantRegistrar;
 		private String union;
-		private Integer volume;
+		private String volume;
 		private List<DeathTO> withRecord;
-		private Integer id;
-		private Date yearRegistered;
-		
-		
-		
-		
-		
-		public Date getYearRegistered() {
-			return yearRegistered;
-		}
-		public void setYearRegistered(Date yearRegistered) {
-			this.yearRegistered = yearRegistered;
-		}
+		private String id;
+		private String yearRegistered;
 		public String getLabel() {
 			return label;
 		}
@@ -49,29 +37,22 @@ public class SpreadDeathTO implements Serializable{
 		public void setType(String type) {
 			this.type = type;
 		}
-		public Integer getId() {
-			return id;
-		}
-		public void setId(Integer id) {
-			this.id = id;
-		}
-
 		public String getCounty() {
 			return county;
 		}
 		public void setCounty(String county) {
 			this.county = county;
 		}
-		public Date getDatePageCertified() {
+		public String getDatePageCertified() {
 			return datePageCertified;
 		}
-		public void setDatePageCertified(Date datePageCertified) {
+		public void setDatePageCertified(String datePageCertified) {
 			this.datePageCertified = datePageCertified;
 		}
-		public Date getDatePageCertifiedAsTrueCopy() {
+		public String getDatePageCertifiedAsTrueCopy() {
 			return datePageCertifiedAsTrueCopy;
 		}
-		public void setDatePageCertifiedAsTrueCopy(Date datePageCertifiedAsTrueCopy) {
+		public void setDatePageCertifiedAsTrueCopy(String datePageCertifiedAsTrueCopy) {
 			this.datePageCertifiedAsTrueCopy = datePageCertifiedAsTrueCopy;
 		}
 		public String getDistrict() {
@@ -100,16 +81,16 @@ public class SpreadDeathTO implements Serializable{
 				String forenameOfSuperintendantRegistrar) {
 			this.forenameOfSuperintendantRegistrar = forenameOfSuperintendantRegistrar;
 		}
-		public Integer getPageNumber() {
+		public String getPageNumber() {
 			return pageNumber;
 		}
-		public void setPageNumber(Integer pageNumber) {
+		public void setPageNumber(String pageNumber) {
 			this.pageNumber = pageNumber;
 		}
-		public Integer getQuarter() {
+		public String getQuarter() {
 			return quarter;
 		}
-		public void setQuarter(Integer quarter) {
+		public void setQuarter(String quarter) {
 			this.quarter = quarter;
 		}
 		public String getStampNumber() {
@@ -137,10 +118,10 @@ public class SpreadDeathTO implements Serializable{
 		public void setUnion(String union) {
 			this.union = union;
 		}
-		public Integer getVolume() {
+		public String getVolume() {
 			return volume;
 		}
-		public void setVolume(Integer volume) {
+		public void setVolume(String volume) {
 			this.volume = volume;
 		}
 		public List<DeathTO> getWithRecord() {
@@ -149,7 +130,20 @@ public class SpreadDeathTO implements Serializable{
 		public void setWithRecord(List<DeathTO> withRecord) {
 			this.withRecord = withRecord;
 		}
+		public String getId() {
+			return id;
+		}
+		public void setId(String id) {
+			this.id = id;
+		}
+		public String getYearRegistered() {
+			return yearRegistered;
+		}
+		public void setYearRegistered(String yearRegistered) {
+			this.yearRegistered = yearRegistered;
+		}
 		
+				
 		
 
 }

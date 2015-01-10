@@ -74,7 +74,7 @@ public class OwlMapperTest {
 				continue;
 			}
 			
-			Integer id = getURIID(key);
+			String id = getURIID(key);
 			System.out.println(id);
 			String nscount = NS + id;
 			if(!StringUtils.equalsIgnoreCase(lastNSCount, nscount)){
@@ -130,10 +130,10 @@ public class OwlMapperTest {
 		return str;
 	}
 
-	private Integer getURIID(String key) {
+	private String getURIID(String key) {
 		String str = key;
 		str = str.substring(str.lastIndexOf("/")+1,str.length());
-		return new Integer(str);
+		return str;
 	}
 
 	private void printStmtIteratorImpl(StmtIterator stmtIt) {

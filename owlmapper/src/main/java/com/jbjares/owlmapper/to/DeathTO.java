@@ -6,21 +6,21 @@ import java.util.Date;
 public class DeathTO implements Serializable{
 
 	private static final long serialVersionUID = 2505882650077259325L;
-	private Integer id;
+	private String id;
     private String label;
     private String address;
     private String ageLastBirthday;
     private String causeOfDeath;
     private String causeOfDeathAndDurationOfIllness;
     private String condition;
-    private Date dateOfDeath;
-    private Date dateOfRegistration;
+    private String dateOfDeath;
+    private String dateOfRegistration;
     private String deathCertification;
     private String durationOfIllness;
     private String forename;
     private String forenameOfInformant;
     private String forenameOfRegistrar;
-    private Integer number;
+    private String number;
     private String placeOfDeath;
     private String qualificationOfInformant;
     private String residenceOfInformant;
@@ -29,11 +29,10 @@ public class DeathTO implements Serializable{
     private String surnameOfInformant;
     private String surnameOfRegistrar;
     private String titleOfRegistrar;
-    
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getLabel() {
@@ -73,16 +72,16 @@ public class DeathTO implements Serializable{
 	public void setCondition(String condition) {
 		this.condition = condition;
 	}
-	public Date getDateOfDeath() {
+	public String getDateOfDeath() {
 		return dateOfDeath;
 	}
-	public void setDateOfDeath(Date dateOfDeath) {
+	public void setDateOfDeath(String dateOfDeath) {
 		this.dateOfDeath = dateOfDeath;
 	}
-	public Date getDateOfRegistration() {
+	public String getDateOfRegistration() {
 		return dateOfRegistration;
 	}
-	public void setDateOfRegistration(Date dateOfRegistration) {
+	public void setDateOfRegistration(String dateOfRegistration) {
 		this.dateOfRegistration = dateOfRegistration;
 	}
 	public String getDeathCertification() {
@@ -115,10 +114,10 @@ public class DeathTO implements Serializable{
 	public void setForenameOfRegistrar(String forenameOfRegistrar) {
 		this.forenameOfRegistrar = forenameOfRegistrar;
 	}
-	public Integer getNumber() {
+	public String getNumber() {
 		return number;
 	}
-	public void setNumber(Integer number) {
+	public void setNumber(String number) {
 		this.number = number;
 	}
 	public String getPlaceOfDeath() {
@@ -169,6 +168,7 @@ public class DeathTO implements Serializable{
 	public void setTitleOfRegistrar(String titleOfRegistrar) {
 		this.titleOfRegistrar = titleOfRegistrar;
 	}
-	
+
+    
     
 }
