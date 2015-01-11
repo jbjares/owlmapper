@@ -1,6 +1,7 @@
 package com.jbjares.owlmapper.to;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SpreadDeathTO implements Serializable{
@@ -22,7 +23,7 @@ public class SpreadDeathTO implements Serializable{
 		private String surnameOfSuperintendantRegistrar;
 		private String union;
 		private String volume;
-		private List<DeathTO> withRecord;
+		private List<String> withRecord = new ArrayList<String>();
 		private String id;
 		private String yearRegistered;
 		public String getLabel() {
@@ -124,10 +125,10 @@ public class SpreadDeathTO implements Serializable{
 		public void setVolume(String volume) {
 			this.volume = volume;
 		}
-		public List<DeathTO> getWithRecord() {
+		public List<String> getWithRecord() {
 			return withRecord;
 		}
-		public void setWithRecord(List<DeathTO> withRecord) {
+		public void setWithRecord(List<String> withRecord) {
 			this.withRecord = withRecord;
 		}
 		public String getId() {

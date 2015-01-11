@@ -1,7 +1,6 @@
 package com.jbjares.owlmapper.to;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class DeathTO implements Serializable{
 
@@ -29,6 +28,22 @@ public class DeathTO implements Serializable{
     private String surnameOfInformant;
     private String surnameOfRegistrar;
     private String titleOfRegistrar;
+    private String type;
+    private String rankProfessionOrOccupation;
+    
+    
+	public String getRankProfessionOrOccupation() {
+		return rankProfessionOrOccupation;
+	}
+	public void setRankProfessionOrOccupation(String rankProfessionOrOccupation) {
+		this.rankProfessionOrOccupation = rankProfessionOrOccupation;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	public String getId() {
 		return id;
 	}
