@@ -24,8 +24,17 @@ public class SpreadDeathTO implements Serializable{
 		private String union;
 		private String volume;
 		private List<String> withRecord = new ArrayList<String>();
+		private List<DeathTO> deaths = new ArrayList<DeathTO>();
 		private String id;
 		private String yearRegistered;
+		
+		
+		public List<DeathTO> getDeaths() {
+			return deaths;
+		}
+		public void setDeaths(List<DeathTO> deaths) {
+			this.deaths = deaths;
+		}
 		public String getLabel() {
 			return label;
 		}

@@ -1,0 +1,757 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY personOntology "http://www.IRLontologies.ie/personOntology.owl#" >
+    <!ENTITY historicalEvents "http://www.IRLontologies.ie/historicalEvents.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.IRLontologies.ie/historicalEvents.owl#"
+     xml:base="http://www.IRLontologies.ie/historicalEvents.owl"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:personOntology="http://www.IRLontologies.ie/personOntology.owl#"
+     xmlns:historicalEvents="http://www.IRLontologies.ie/historicalEvents.owl#">
+    <owl:Ontology rdf:about="">
+        <dc:title
+            >Irish Record Linkage Vital 
+Historical Events and Involvers Ontology</dc:title>
+        <dc:contributor>Dolores 
+Grant</dc:contributor>
+        <dc:description
+            >Ontology captures classes and properties to create RDF encodings of historical event and persons involved on those events. </dc:description>
+        <dc:creator
+            >Oya Beyan (Insight @ 
+NUI Galway)</dc:creator>
+        <dc:contributor
+            >Christophe Debruyne 
+(Insight @ NUI Galway)</dc:contributor>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="&dc;title"/>
+    <owl:AnnotationProperty rdf:about="&dc;description"/>
+    <owl:AnnotationProperty rdf:about="&dc;contributor"/>
+    <owl:AnnotationProperty rdf:about="&dc;creator"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#DeathCauseOf -->
+
+    <owl:ObjectProperty rdf:about="#DeathCauseOf">
+        <rdfs:label>death cause of</rdfs:label>
+        <rdfs:domain rdf:resource="#CauseOfDeath"/>
+        <rdfs:range rdf:resource="#Person"/>
+        <owl:inverseOf rdf:resource="#hasCauseOfDeath"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#countyOf -->
+
+    <owl:ObjectProperty rdf:about="#countyOf">
+        <rdfs:label>county of</rdfs:label>
+        <rdfs:range rdf:resource="#Event"/>
+        <rdfs:domain rdf:resource="#Place"/>
+        <owl:inverseOf rdf:resource="#hasCounty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#deathIsInfBy -->
+
+    <owl:ObjectProperty rdf:about="#deathIsInfBy">
+        <rdfs:label
+            >death is informed by</rdfs:label>
+        <rdfs:domain rdf:resource="#Person"/>
+        <rdfs:range rdf:resource="#Person"/>
+        <owl:inverseOf rdf:resource="#hasInfDeathOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#deathRecordOf -->
+
+    <owl:ObjectProperty rdf:about="#deathRecordOf">
+        <rdfs:label>death record of</rdfs:label>
+        <rdfs:domain rdf:resource="#DeathEvent"/>
+        <rdfs:range rdf:resource="#Person"/>
+        <owl:inverseOf rdf:resource="#hasDeathRecord"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#hasCauseOfDeath -->
+
+    <owl:ObjectProperty rdf:about="#hasCauseOfDeath">
+        <rdfs:label
+            >has cause of death</rdfs:label>
+        <rdfs:range rdf:resource="#CauseOfDeath"/>
+        <rdfs:domain rdf:resource="#Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#hasCounty -->
+
+    <owl:ObjectProperty rdf:about="#hasCounty">
+        <rdfs:label>has county</rdfs:label>
+        <rdfs:domain rdf:resource="#Event"/>
+        <rdfs:range rdf:resource="#Place"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#hasDeathRecord -->
+
+    <owl:ObjectProperty rdf:about="#hasDeathRecord">
+        <rdfs:label
+            >has death record</rdfs:label>
+        <rdfs:range rdf:resource="#DeathEvent"/>
+        <rdfs:domain rdf:resource="#Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#hasInfDeathOf -->
+
+    <owl:ObjectProperty rdf:about="#hasInfDeathOf">
+        <rdfs:label
+            >has informed the death of</rdfs:label>
+        <rdfs:range rdf:resource="#Person"/>
+        <rdfs:domain rdf:resource="#Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#hasInformant_ -->
+
+    <owl:ObjectProperty rdf:about="#hasInformant_">
+        <rdfs:label>has informant </rdfs:label>
+        <rdfs:domain rdf:resource="#Event"/>
+        <rdfs:range rdf:resource="#Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#hasRankAtDeath -->
+
+    <owl:ObjectProperty rdf:about="#hasRankAtDeath">
+        <rdfs:label
+            >has rank at death</rdfs:label>
+        <rdfs:domain rdf:resource="#Person"/>
+        <rdfs:range rdf:resource="#Rank"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#hasRegister -->
+
+    <owl:ObjectProperty rdf:about="#hasRegister">
+        <rdfs:label>has register</rdfs:label>
+        <rdfs:range rdf:resource="#Event"/>
+        <rdfs:domain rdf:resource="#Person"/>
+        <owl:inverseOf rdf:resource="#registeredBy"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#hasRegisterPage -->
+
+    <owl:ObjectProperty rdf:about="#hasRegisterPage">
+        <rdfs:label
+            >has register page</rdfs:label>
+        <rdfs:domain rdf:resource="#Event"/>
+        <rdfs:range rdf:resource="#RegisterPage"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#hasResdAtDeath -->
+
+    <owl:ObjectProperty rdf:about="#hasResdAtDeath">
+        <rdfs:label
+            >has residence at death</rdfs:label>
+        <rdfs:domain rdf:resource="#Person"/>
+        <rdfs:range rdf:resource="#Place"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#hasResdInfDeath -->
+
+    <owl:ObjectProperty rdf:about="#hasResdInfDeath">
+        <rdfs:label
+            >has residence during Informing death</rdfs:label>
+        <rdfs:domain rdf:resource="#Person"/>
+        <rdfs:range rdf:resource="#Place"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#hasSigned -->
+
+    <owl:ObjectProperty rdf:about="#hasSigned">
+        <rdfs:label>has signed</rdfs:label>
+        <rdfs:domain rdf:resource="#Person"/>
+        <rdfs:range rdf:resource="#RegisterPage"/>
+        <owl:inverseOf rdf:resource="#signedBy"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#informs -->
+
+    <owl:ObjectProperty rdf:about="#informs">
+        <rdfs:label>informs</rdfs:label>
+        <rdfs:range rdf:resource="#Event"/>
+        <rdfs:domain rdf:resource="#Person"/>
+        <owl:inverseOf rdf:resource="#hasInformant_"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#rankPerAtDeath -->
+
+    <owl:ObjectProperty rdf:about="#rankPerAtDeath">
+        <rdfs:label
+            >rank of person at death</rdfs:label>
+        <rdfs:range rdf:resource="#Person"/>
+        <rdfs:domain rdf:resource="#Rank"/>
+        <owl:inverseOf rdf:resource="#hasRankAtDeath"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#registerPageOf -->
+
+    <owl:ObjectProperty rdf:about="#registerPageOf">
+        <rdfs:label
+            >register page of</rdfs:label>
+        <rdfs:range rdf:resource="#Event"/>
+        <rdfs:domain rdf:resource="#RegisterPage"/>
+        <owl:inverseOf rdf:resource="#hasRegisterPage"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#registeredBy -->
+
+    <owl:ObjectProperty rdf:about="#registeredBy">
+        <rdfs:label>registered by</rdfs:label>
+        <rdfs:domain rdf:resource="#Event"/>
+        <rdfs:range rdf:resource="#Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#resdOfPerAtDeath -->
+
+    <owl:ObjectProperty rdf:about="#resdOfPerAtDeath">
+        <rdfs:label
+            >residence of person at death</rdfs:label>
+        <rdfs:range rdf:resource="#Person"/>
+        <rdfs:domain rdf:resource="#Place"/>
+        <owl:inverseOf rdf:resource="#hasResdAtDeath"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#resdOfPerInfDeath -->
+
+    <owl:ObjectProperty rdf:about="#resdOfPerInfDeath">
+        <rdfs:label
+            > residence of Person Informing Death</rdfs:label>
+        <rdfs:range rdf:resource="#Person"/>
+        <rdfs:domain rdf:resource="#Place"/>
+        <owl:inverseOf rdf:resource="#hasResdInfDeath"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#signedBy -->
+
+    <owl:ObjectProperty rdf:about="#signedBy">
+        <rdfs:label>signed by</rdfs:label>
+        <rdfs:range rdf:resource="#Person"/>
+        <rdfs:domain rdf:resource="#RegisterPage"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/personOntology.owl#OWLObjectPropertyImpl_01420721646860402000 -->
+
+    <owl:ObjectProperty rdf:about="&personOntology;OWLObjectPropertyImpl_01420721646860402000">
+        <rdfs:label>has district</rdfs:label>
+        <rdfs:range rdf:resource="#District"/>
+        <rdfs:domain rdf:resource="#Event"/>
+        <rdfs:domain rdf:resource="#Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/personOntology.owl#OWLObjectPropertyImpl_01420721646871238000 -->
+
+    <owl:ObjectProperty rdf:about="&personOntology;OWLObjectPropertyImpl_01420721646871238000">
+        <rdfs:label>has child</rdfs:label>
+        <rdfs:range rdf:resource="#Person"/>
+        <rdfs:domain rdf:resource="#Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/personOntology.owl#OWLObjectPropertyImpl_01420721646875765000 -->
+
+    <owl:ObjectProperty rdf:about="&personOntology;OWLObjectPropertyImpl_01420721646875765000">
+        <rdfs:label>is child of</rdfs:label>
+        <owl:inverseOf rdf:resource="&personOntology;OWLObjectPropertyImpl_01420721646871238000"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/personOntology.owl#OWLObjectPropertyImpl_01420721646876718000 -->
+
+    <owl:ObjectProperty rdf:about="&personOntology;OWLObjectPropertyImpl_01420721646876718000">
+        <rdfs:label>is district of</rdfs:label>
+        <rdfs:domain rdf:resource="#District"/>
+        <rdfs:range rdf:resource="#Event"/>
+        <rdfs:range rdf:resource="#Person"/>
+        <owl:inverseOf rdf:resource="&personOntology;OWLObjectPropertyImpl_01420721646860402000"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/personOntology.owl#OWLObjectPropertyImpl_01420721646877197000 -->
+
+    <owl:ObjectProperty rdf:about="&personOntology;OWLObjectPropertyImpl_01420721646877197000">
+        <rdfs:label>has husband</rdfs:label>
+        <rdfs:domain rdf:resource="#Person"/>
+        <rdfs:range rdf:resource="#Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/personOntology.owl#OWLObjectPropertyImpl_01420721646880075000 -->
+
+    <owl:ObjectProperty rdf:about="&personOntology;OWLObjectPropertyImpl_01420721646880075000">
+        <rdfs:label>has wife</rdfs:label>
+        <rdfs:range rdf:resource="#Person"/>
+        <rdfs:domain rdf:resource="#Person"/>
+        <owl:inverseOf rdf:resource="&personOntology;OWLObjectPropertyImpl_01420721646877197000"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#AgeAtLastBirthday -->
+
+    <owl:DatatypeProperty rdf:about="#AgeAtLastBirthday">
+        <rdfs:label
+            >age at last birthday</rdfs:label>
+        <dc:description
+            >age recorded in death certificate as age at last birthday </dc:description>
+        <rdfs:domain rdf:resource="#Person"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#CauseIllnessDuration -->
+
+    <owl:DatatypeProperty rdf:about="#CauseIllnessDuration">
+        <rdfs:label
+            >cause of death and duration of illness</rdfs:label>
+        <rdfs:domain rdf:resource="#CauseOfDeath"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#CondAtDeath -->
+
+    <owl:DatatypeProperty rdf:about="#CondAtDeath">
+        <rdfs:label
+            >condition at death</rdfs:label>
+        <dc:description
+            >condition recorded in death certificate </dc:description>
+        <rdfs:domain rdf:resource="#Person"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#CountryDesc -->
+
+    <owl:DatatypeProperty rdf:about="#CountryDesc">
+        <rdfs:label
+            >country desciption</rdfs:label>
+        <rdfs:domain rdf:resource="#Place"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#InformantQualification -->
+
+    <owl:DatatypeProperty rdf:about="#InformantQualification">
+        <rdfs:label
+            >qualification of informant</rdfs:label>
+        <rdfs:domain rdf:resource="#Event"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#StampNum -->
+
+    <owl:DatatypeProperty rdf:about="#StampNum">
+        <rdfs:label>stamp number</rdfs:label>
+        <rdfs:domain rdf:resource="#RegisterPage"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#addressDesc -->
+
+    <owl:DatatypeProperty rdf:about="#addressDesc">
+        <rdfs:label>address</rdfs:label>
+        <rdfs:domain rdf:resource="#Place"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#cause -->
+
+    <owl:DatatypeProperty rdf:about="#cause">
+        <rdfs:label>cause of death</rdfs:label>
+        <rdfs:domain rdf:resource="#CauseOfDeath"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#dateOfDeath -->
+
+    <owl:DatatypeProperty rdf:about="#dateOfDeath">
+        <rdfs:label>date of death</rdfs:label>
+        <rdfs:domain rdf:resource="#Person"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#dateOfRegistration -->
+
+    <owl:DatatypeProperty rdf:about="#dateOfRegistration">
+        <rdfs:label
+            >date of registration</rdfs:label>
+        <rdfs:domain rdf:resource="#Event"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#datePageCertified -->
+
+    <owl:DatatypeProperty rdf:about="#datePageCertified">
+        <rdfs:label
+            >date of page certified</rdfs:label>
+        <rdfs:domain rdf:resource="#RegisterPage"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#datePageCertifiedAsTrueCopy -->
+
+    <owl:DatatypeProperty rdf:about="#datePageCertifiedAsTrueCopy">
+        <rdfs:label
+            >date of page certified as TrueCopy</rdfs:label>
+        <rdfs:domain rdf:resource="#RegisterPage"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#deathCertification -->
+
+    <owl:DatatypeProperty rdf:about="#deathCertification">
+        <rdfs:label
+            >with death certification status</rdfs:label>
+        <rdfs:domain rdf:resource="#Event"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#districtDesc -->
+
+    <owl:DatatypeProperty rdf:about="#districtDesc">
+        <rdfs:label
+            >district desciption</rdfs:label>
+        <rdfs:domain rdf:resource="#Place"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#durIllness -->
+
+    <owl:DatatypeProperty rdf:about="#durIllness">
+        <rdfs:label
+            >duration of illness</rdfs:label>
+        <rdfs:domain rdf:resource="#CauseOfDeath"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#forename -->
+
+    <owl:DatatypeProperty rdf:about="#forename">
+        <rdfs:domain rdf:resource="#Person"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#hasSource_ -->
+
+    <owl:DatatypeProperty rdf:about="#hasSource_">
+        <rdfs:label
+            >has information source </rdfs:label>
+        <dc:description
+            >links the information with its original data source of the  IRL historic vital registration data  that captured with IRL  Vital Records Ontology 
+http://purl.org/net/irish-record-linkage/records
+</dc:description>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#placeOfDeath -->
+
+    <owl:DatatypeProperty rdf:about="#placeOfDeath">
+        <rdfs:label>place of death</rdfs:label>
+        <rdfs:domain rdf:resource="#Event"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#quarter -->
+
+    <owl:DatatypeProperty rdf:about="#quarter">
+        <rdfs:label>quarter</rdfs:label>
+        <rdfs:domain rdf:resource="#RegisterPage"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#rankDesc -->
+
+    <owl:DatatypeProperty rdf:about="#rankDesc">
+        <rdfs:label>rank</rdfs:label>
+        <rdfs:domain rdf:resource="#Rank"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#sex -->
+
+    <owl:DatatypeProperty rdf:about="#sex">
+        <rdfs:domain rdf:resource="#Person"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#surname -->
+
+    <owl:DatatypeProperty rdf:about="#surname">
+        <rdfs:domain rdf:resource="#Person"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#titleOfReg -->
+
+    <owl:DatatypeProperty rdf:about="#titleOfReg">
+        <dc:description
+            >title of registrar</dc:description>
+        <rdfs:domain rdf:resource="#Person"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#union -->
+
+    <owl:DatatypeProperty rdf:about="#union">
+        <rdfs:label>union</rdfs:label>
+        <rdfs:domain rdf:resource="#RegisterPage"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#volume -->
+
+    <owl:DatatypeProperty rdf:about="#volume">
+        <rdfs:label>volume</rdfs:label>
+        <rdfs:domain rdf:resource="#RegisterPage"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#yearRegistered -->
+
+    <owl:DatatypeProperty rdf:about="#yearRegistered">
+        <rdfs:label>year registered</rdfs:label>
+        <rdfs:domain rdf:resource="#RegisterPage"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#Address -->
+
+    <owl:Class rdf:about="#Address">
+        <rdfs:label>Address</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Place"/>
+        <dc:description
+            >Residence of a person</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#BirthEvent -->
+
+    <owl:Class rdf:about="#BirthEvent">
+        <rdfs:label>Birth event</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Event"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#CauseOfDeath -->
+
+    <owl:Class rdf:about="#CauseOfDeath">
+        <rdfs:label>Cause of death</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#County -->
+
+    <owl:Class rdf:about="#County">
+        <rdfs:label>county</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Place"/>
+        <dc:description
+            >The county of the register page.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#DeathEvent -->
+
+    <owl:Class rdf:about="#DeathEvent">
+        <rdfs:label>Death event</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Event"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#District -->
+
+    <owl:Class rdf:about="#District">
+        <rdfs:label>District</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Place"/>
+        <dc:description
+            >District of register page of superintendent registrar</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#Event -->
+
+    <owl:Class rdf:about="#Event"/>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#MarriageEvent -->
+
+    <owl:Class rdf:about="#MarriageEvent">
+        <rdfs:label>Marriage event</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Event"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#Person -->
+
+    <owl:Class rdf:about="#Person">
+        <rdfs:label>Person</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#Place -->
+
+    <owl:Class rdf:about="#Place">
+        <rdfs:label>Place</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#Rank -->
+
+    <owl:Class rdf:about="#Rank">
+        <rdfs:label>Rank</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.IRLontologies.ie/historicalEvents.owl#RegisterPage -->
+
+    <owl:Class rdf:about="#RegisterPage">
+        <rdfs:label>Register page</rdfs:label>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 2.2.1.1138) http://owlapi.sourceforge.net -->
+
