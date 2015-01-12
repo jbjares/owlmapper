@@ -1,9 +1,12 @@
 package com.jbjares.owlmapper;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +27,7 @@ import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -36,10 +40,13 @@ import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.jbjares.owlmapper.jena.IJenaModelService;
 import com.jbjares.owlmapper.newmodel.to.Address;
 import com.jbjares.owlmapper.newmodel.to.Cause_of_death;
+import com.jbjares.owlmapper.newmodel.to.County;
 import com.jbjares.owlmapper.newmodel.to.Death_event;
+import com.jbjares.owlmapper.newmodel.to.District;
 import com.jbjares.owlmapper.newmodel.to.MyFactory;
 import com.jbjares.owlmapper.newmodel.to.Person;
 import com.jbjares.owlmapper.newmodel.to.Rank;
+import com.jbjares.owlmapper.newmodel.to.Register_page;
 import com.jbjares.owlmapper.to.DeathTO;
 import com.jbjares.owlmapper.to.InputDataSampleTO;
 import com.jbjares.owlmapper.to.SpreadDeathTO;
@@ -69,45 +76,74 @@ public class OwlMapperTest {
 		executeMapper(inputDataSampleTO);
 	}
 
-	private void executeMapper(InputDataSampleTO inputDataSampleTO) throws OWLOntologyCreationException {
+	private void executeMapper(InputDataSampleTO inputDataSampleTO) throws OWLOntologyCreationException, OWLOntologyStorageException, FileNotFoundException {
 		OWLOntologyManager owlOntologyManager = OWLManager.createOWLOntologyManager();
 		OWLOntology onto = owlOntologyManager.loadOntologyFromOntologyDocument(new File("src/test/resources/baseIRLontology-v0.3.owl"));
 		System.out.println(onto.getLogicalAxiomCount());
 		MyFactory factory = new MyFactory(onto);
 		Assert.assertNotNull(factory);
 		
+		//owlOntologyManager.saveOntology(arg0, arg1);
+		
+		
 		for(SpreadDeathTO spread:inputDataSampleTO.getSpread_deaths()){
 			for(DeathTO death:spread.getDeaths()){
+				/**
+				 *  #4 different person individual, #
+					##2 address individual, #
+					##one rank individual, #
+					##one cause of death individual; #
+					##one death event individual,# 
+					##one county individual,#
+					##two district individual, #
+					##one register page individual. #
+				 */
 				
-				//#subjectToDeathEventPerson
-				Person subjectToDeathEventPerson = factory.createPerson("subjectToDeathEventPerson");
-				subjectToDeathEventPerson.addSurname(death.getSurname());
-				subjectToDeathEventPerson.addSurname(death.getForename());
-				subjectToDeathEventPerson.addSex(death.getSex());
-				subjectToDeathEventPerson.addAge_at_last_birthday(death.getAgeLastBirthday());
-				subjectToDeathEventPerson.addCondition_at_death(death.getCondition());
-				subjectToDeathEventPerson.addTitleOfReg(death.getTitleOfRegistrar());
-				subjectToDeathEventPerson.addDate_of_death(death.getDateOfDeath());
+				//one register page individual
+				Register_page registerPage = createRegisterPage(spread,death,factory);
+				//two district individual
+				District districtEvent = createDistrictForEvent(spread,death,factory);
+				District districtForDeathPerson = createDistrictForSubjectIndividualPerson(spread,death,factory);
+				//one county individual
+				County countyOfEvent = createCountyEvent(spread,death,factory);
+				//one death event individual
+				Death_event deathEvent = createDeathEvent(spread,death,factory,registerPage,districtEvent,countyOfEvent);
+				//one cause of death individual
+				Cause_of_death causeOfDeathForDeathPerson = createCauseOfDeathForDeathPerson(spread,death,factory);
+				//one rank individual
+				Rank rankForDeathPerson = createRankForDeathPerson(spread,death,factory);
+				//2 address individual
+				Address residenceOfDeathForDeathPerson = createResidenceOfDeathAddress(spread,death,factory);
+				Address residenceOfDeathForInformantPerson = createResidenceOfDeathAddress(spread,death,factory);
 				
-				//##Rank
-				Rank rankTosubjectToDeathEventPerson = factory.createRank(death.getRankProfessionOrOccupation());
-				subjectToDeathEventPerson.addHas_rank_at_death(rankTosubjectToDeathEventPerson);
 				
-				//##Cause_of_death
-				Cause_of_death causeTosubjectToDeathEventPerson = factory.createCause_of_death(death.getCauseOfDeath());
-				causeTosubjectToDeathEventPerson.addCause_of_death(death.getCauseOfDeath());
-				causeTosubjectToDeathEventPerson.addCause_of_death_and_duration_of_illness(causeTosubjectToDeathEventPerson.getCause_of_death_and_duration_of_illness());
-				causeTosubjectToDeathEventPerson.addDuration_of_illness(causeTosubjectToDeathEventPerson.getDuration_of_illness());
-				subjectToDeathEventPerson.addHas_cause_of_death(causeTosubjectToDeathEventPerson);
+				//4 different person individual
 				
-				//##Address
-				Address addressTosubjectToDeathEventPerson = factory.createAddress(death.getAddress());
-				subjectToDeathEventPerson.addHas_residence_at_death(addressTosubjectToDeathEventPerson);
+				//SuperIntendent
+				Person superIntendentPerson = createSuperIntendentPersonPerson(spread,death,factory,districtEvent);
+				registerPage.addSigned_by(superIntendentPerson);
 				
-				//##Death_event
-				Death_event deathEnvent = factory.createDeath_event(death.getPlaceOfDeath());
-				deathEnvent.addDate_of_registration(death.getPlaceOfDeath());
-				//TODO continue...
+				//Registrar Person
+				Person registrarPerson = createRegistrarPerson(spread,death,factory,deathEvent);
+				deathEvent.addRegistered_by(registrarPerson);
+				
+				//Subject To Death Event
+				Person informedThedeathEventPerson = createInformedThedeathEventPerson(spread,death,factory,residenceOfDeathForInformantPerson,deathEvent);
+				
+				//Informed The Death Event
+				Person subjectToDeathEventPerson = createSujectToDeathEventPerson(spread,death,factory,rankForDeathPerson,residenceOfDeathForDeathPerson,
+						causeOfDeathForDeathPerson,deathEvent,informedThedeathEventPerson,districtForDeathPerson);
+				informedThedeathEventPerson.addHas_informed_the_death_of(subjectToDeathEventPerson);
+				
+				
+				//onto.accept(superIntendentPerson.getOwlOntology());
+				owlOntologyManager.saveOntology(superIntendentPerson.getOwlOntology(), new FileOutputStream(new File("src/test/resources/subjectToDeathEventPerson.rdf")));
+				owlOntologyManager.saveOntology(superIntendentPerson.getOwlOntology(), new FileOutputStream(new File("src/test/resources/informedThedeathEventPerson.rdf")));
+				owlOntologyManager.saveOntology(superIntendentPerson.getOwlOntology(), new FileOutputStream(new File("src/test/resources/registrarPerson.rdf")));
+				owlOntologyManager.saveOntology(superIntendentPerson.getOwlOntology(), new FileOutputStream(new File("src/test/resources/superIntendentPerson.rdf")));
+				
+				
+				
 				
 			}
 			
@@ -117,6 +153,144 @@ public class OwlMapperTest {
 		
 	}
 
+
+
+	private Address createResidenceOfDeathAddress(SpreadDeathTO spread,
+			DeathTO death, MyFactory factory) {
+		Address address = factory.createAddress(death.getAddress());
+		return address;
+	}
+
+	private Rank createRankForDeathPerson(SpreadDeathTO spread, DeathTO death,MyFactory factory) {
+		//TODO FIXME
+		if(death.getRankProfessionOrOccupation()==null){
+			return factory.createRank("[#EMPTY#]");
+		}
+		Rank rankTosubjectToDeathEventPerson = factory.createRank(death.getRankProfessionOrOccupation());
+		return rankTosubjectToDeathEventPerson;
+	}
+
+	private Cause_of_death createCauseOfDeathForDeathPerson(SpreadDeathTO spread, DeathTO death, MyFactory factory) {
+		Cause_of_death causeTosubjectToDeathEventPerson = factory.createCause_of_death(death.getCauseOfDeath());
+		causeTosubjectToDeathEventPerson.addCause_of_death(death.getCauseOfDeath());
+		//TODO FIXME
+		//causeTosubjectToDeathEventPerson.addCause_of_death_and_duration_of_illness(((Set)causeTosubjectToDeathEventPerson.getCause_of_death_and_duration_of_illness()).toArray()[0]);
+		//causeTosubjectToDeathEventPerson.addDuration_of_illness(causeTosubjectToDeathEventPerson.getDuration_of_illness());
+		return causeTosubjectToDeathEventPerson;
+	}
+
+	private Death_event createDeathEvent(SpreadDeathTO spread, DeathTO death,MyFactory factory, Register_page registerPage, District districtEvent, County countyOfEvent) {
+		//##Death_event
+		Death_event deathEnventToSubjectToDeathEventPerson = factory.createDeath_event(death.getPlaceOfDeath());
+		deathEnventToSubjectToDeathEventPerson.addWith_death_certification_status(death.getDeathCertification());
+		deathEnventToSubjectToDeathEventPerson.addQualification_of_informant(death.getQualificationOfInformant());
+		deathEnventToSubjectToDeathEventPerson.addPlace_of_death(death.getPlaceOfDeath());
+		deathEnventToSubjectToDeathEventPerson.addDate_of_registration(death.getDateOfRegistration());
+		//###CountryDesc
+		deathEnventToSubjectToDeathEventPerson.addHas_county(countyOfEvent);
+		//###districtDesc
+		deathEnventToSubjectToDeathEventPerson.addHas_district(districtEvent);
+		//###Register Page
+		deathEnventToSubjectToDeathEventPerson.addHas_register_page(registerPage);
+		return deathEnventToSubjectToDeathEventPerson;
+	}
+
+	private County createCountyEvent(SpreadDeathTO spread, DeathTO death,MyFactory factory) {
+		County countySubjectToDeathEventPerson = factory.createCounty(spread.getCounty());
+		return countySubjectToDeathEventPerson;
+	}
+
+	private District createDistrictForEvent(SpreadDeathTO spread,DeathTO death, MyFactory factory) {
+		District districtEvent = factory.createDistrict(spread.getDistrict());
+		return districtEvent;
+	}
+
+	private District createDistrictForSubjectIndividualPerson(SpreadDeathTO spread,DeathTO death, MyFactory factory) {
+		District districtOfIndividualOfDeath = factory.createDistrict(spread.getDistrict());
+		return districtOfIndividualOfDeath;
+	}
+	
+	private Register_page createRegisterPage(SpreadDeathTO spread,DeathTO death, MyFactory factory) {
+		Register_page registerPageToSubjectToDeathEventPerson = factory.createRegister_page("RegisterPage");
+		registerPageToSubjectToDeathEventPerson.addDate_of_page_certified(spread.getDatePageCertified());
+		registerPageToSubjectToDeathEventPerson.addDate_of_page_certified_as_TrueCopy(spread.getDatePageCertifiedAsTrueCopy());
+		registerPageToSubjectToDeathEventPerson.addQuarter(spread.getQuarter());
+		registerPageToSubjectToDeathEventPerson.addStamp_number(spread.getStampNumber());
+		registerPageToSubjectToDeathEventPerson.addVolume(spread.getVolume());
+		registerPageToSubjectToDeathEventPerson.addYear_registered(spread.getYearRegistered());
+		registerPageToSubjectToDeathEventPerson.addUnion(spread.getUnion());
+		return registerPageToSubjectToDeathEventPerson;
+	}
+
+	private Person createSuperIntendentPersonPerson(SpreadDeathTO spread,DeathTO death, MyFactory factory, District districtEvent) {
+
+		//#superIntendent
+		Person superIntendentPerson = factory.createPerson("superIntendentPerson");
+		
+		superIntendentPerson.addSurname(spread.getSurnameOfSuperintendantRegistrar());
+		superIntendentPerson.addForename(spread.getForenameOfSuperintendantRegistrar());
+		
+		//hasDistrict
+		superIntendentPerson.addHas_district(districtEvent);
+		return superIntendentPerson;
+	}
+
+	private Person createInformedThedeathEventPerson(SpreadDeathTO spread,
+DeathTO death, MyFactory factory, Address residenceOfDeathForInformantPerson, Death_event deathEvent) {
+
+		//#subjectToDeathEventPerson
+		Person informedTheDeathEventPerson = factory.createPerson("informedTheDeathEventPerson");
+		informedTheDeathEventPerson.addSurname(death.getSurnameOfInformant());
+		informedTheDeathEventPerson.addForename(death.getForenameOfInformant());
+		
+		
+		//##Address
+		informedTheDeathEventPerson.addHas_residence_during_Informing_death(residenceOfDeathForInformantPerson);
+		
+		//##Informs
+		informedTheDeathEventPerson.addInforms(deathEvent);
+		
+		return informedTheDeathEventPerson;
+	}
+
+	private Person createRegistrarPerson(SpreadDeathTO spread, DeathTO death, MyFactory factory, Death_event deathEvent) {
+		//#subjectToDeathEventPerson
+		Person registrarPerson = factory.createPerson("registrarPerson");
+		registrarPerson.addSurname(death.getSurnameOfRegistrar());
+		registrarPerson.addForename(death.getForenameOfRegistrar());
+		registrarPerson.addTitleOfReg(death.getTitleOfRegistrar());
+
+		return registrarPerson;
+	}
+
+	private Person createSujectToDeathEventPerson(SpreadDeathTO spread,DeathTO death, MyFactory factory, Rank rankForDeathPerson, 
+			Address residenceOfDeathForDeathPerson, Cause_of_death causeOfDeathForDeathPerson, Death_event deathEvent, Person informedThedeathEventPerson, District districtForDeathPerson) {
+		//#subjectToDeathEventPerson
+		Person subjectToDeathEventPerson = factory.createPerson("subjectToDeathEventPerson");
+		subjectToDeathEventPerson.addSurname(death.getSurname());
+		subjectToDeathEventPerson.addForename(death.getForename());
+		subjectToDeathEventPerson.addSex(death.getSex());
+		subjectToDeathEventPerson.addAge_at_last_birthday(death.getAgeLastBirthday());
+		subjectToDeathEventPerson.addCondition_at_death(death.getCondition());
+		subjectToDeathEventPerson.addDate_of_death(death.getDateOfDeath());
+		
+		//##Rank
+		subjectToDeathEventPerson.addHas_rank_at_death(rankForDeathPerson);
+		
+		//##Cause_of_death
+		subjectToDeathEventPerson.addHas_cause_of_death(causeOfDeathForDeathPerson);
+		
+		//##Address
+		subjectToDeathEventPerson.addHas_residence_at_death(residenceOfDeathForDeathPerson);
+		
+		//##Death_event
+		subjectToDeathEventPerson.addHas_death_record(deathEvent);
+		
+		//##District
+		subjectToDeathEventPerson.addHas_district(districtForDeathPerson);
+		
+		return subjectToDeathEventPerson;
+	}
 
 
 	private InputDataSampleTO parseTTLSourceTOObject() throws Exception {
